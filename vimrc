@@ -198,19 +198,41 @@ endfun
     " vim-golang
     set rtp+=/usr/share/go/misc/vim
 
-    " youcompleteme
-    "let g:ycm_key_list_select_completion = ['<Down>']
-    "let g:ycm_key_list_previous_completion = ['<Up>']
-    "let g:UltiSnipsExpandTrigger = '<tab>'
-    "let g:UltiSnipsJumpForwardTrigger="<tab>"
-    "let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
     " GTags
     "set csprg=gtags-cscope
     "let GtagsCscope_Auto_Load = 1
     "let GtagsCscope_Auto_Map = 1
     "let GtagsCscope_Ignore_Case = 1
     "let GtagsCscope_Keep_Alive = 1
+
+    " gotags
+    let g:tagbar_type_go = {
+        \ 'ctagstype' : 'go',
+        \ 'kinds'     : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+        \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+        \ },
+        \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+        \ },
+        \ 'ctagsbin'  : 'gotags',
+        \ 'ctagsargs' : '-sort -silent'
+        \ }
 " }
 
 " Shortcut mappings
@@ -244,10 +266,8 @@ endfun
 
     autocmd Filetype c,cpp nnoremap <F7> :make CC='~/.vim/bundle/clang_complete/bin/cc_args.py gcc' CXX='~/.vim/bundle/clang_complete/bin/cc_args.py g++'.<CR>
 
-    nnoremap <silent><F10> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-    nnoremap <silent><F11> :! find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR>
-                            \: !cscope -b -i cscope.file -f cscope.out<CR>
-                            \:cs kill -1<CR>:cs add cscope.out<CR>
+    nnoremap <F10> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+    nnoremap <F11> :!find . -iname '*.c' -o -iname '*.cpp' -o -iname '*.h' -o -iname '*.hpp' > cscope.files<CR> :!cscope -b -i cscope.files -f cscope.out<CR> :cs reset<CR>
     " nnoremap <F10> :!gtags<CR>
     " nnoremap <F11> :!global -u<CR>
     nnoremap <F12> :Dox<CR>
